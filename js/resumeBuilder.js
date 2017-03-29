@@ -38,10 +38,10 @@ bio.display = function() {
         .github);
     var formattedlocation = HTMLlocation.replace("%data%", bio.contacts
         .location);
-    $("#topContacts").append(formattedMobile);
-    $("#topContacts").append(formattedemail);
-    $("#topContacts").append(formattedgithub);
-    $("#topContacts").append(formattedlocation);
+    $("#topContacts, #footerContacts").append(formattedMobile);
+    $("#topContacts, #footerContacts").append(formattedemail);
+    $("#topContacts, #footerContacts").append(formattedgithub);
+    $("#topContacts, #footerContacts").append(formattedlocation);
 
     //Build the bio pic section.
     var formattedbiopic = HTMLbioPic.replace("%data%", bio.biopic);
@@ -55,11 +55,9 @@ bio.display = function() {
         skillsCount) {
         var formattedskills = HTMLskills.replace("%data%", bio.skills[
             skillsCount]);
-        $("#bioStuff").append(formattedskills);
+        $("#skills").append(formattedskills);
     }
 };
-
-bio.display();
 
 //Educational information (traditional institutions and online courses)
 var education = {
@@ -69,7 +67,7 @@ var education = {
             "degree": "Masters of Science",
             "majors": ["Mechanical Engineering"],
             "dates": "1992",
-            "url": "http://uofu.com"
+            "url": "http://www.utah.edu"
         },
         {
             "name": "Cal Poly",
@@ -77,7 +75,7 @@ var education = {
             "degree": "Bachelors of Science",
             "majors": ["Mechanical Engineering"],
             "dates": "1990",
-            "url": "http://calpoly.com"
+            "url": "http://calpoly.edu"
         },
         {
             "name": "Utah Valley University",
@@ -85,7 +83,7 @@ var education = {
             "degree": "Not completed",
             "majors": ["Business"],
             "dates": "2016",
-            "url": "http://uvu.com"
+            "url": "http://uvu.edu"
         },
     ],
     "onLineCourses": [{
@@ -110,7 +108,8 @@ education.display = function() {
         $("#education").append(HTMLschoolStart);
 
         var formattedSchoolName = HTMLschoolName.replace("%data%",
-            education.schools[schoolsCount].name);
+            education.schools[schoolsCount].name).replace('#',
+            education.schools[schoolsCount].url);
         var formattedSchoolDates = HTMLschoolDates.replace(
             "%data%",
             education.schools[schoolsCount].dates);
@@ -167,8 +166,6 @@ education.display = function() {
     }
 };
 
-education.display();
-
 //Work information
 var work = {
     "jobs": [{
@@ -196,19 +193,20 @@ work.display = function() {
         $("#workExperience").append(HTMLworkStart);
 
         var formattedEmployer = HTMLworkEmployer.replace("%data%",
-            work.jobs[
-                jobCount].employer);
+            work.jobs[jobCount].employer);
         var formattedTitle = HTMLworkTitle.replace("%data%", work
-            .jobs[
-                jobCount].title);
+            .jobs[jobCount].title);
         var formattedEmployerTitle = formattedEmployer +
             formattedTitle;
         $(".work-entry:last").append(formattedEmployerTitle);
 
         var formattedDates = HTMLworkDates.replace("%data%", work
-            .jobs[
-                jobCount].dates);
+            .jobs[jobCount].dates);
         $(".work-entry:last").append(formattedDates);
+
+       var formattedLocation = HTMLworkLocation.replace("%data%", work
+            .jobs[jobCount].location);
+        $(".work-entry:last").append(formattedLocation);
 
         var formattedDescription = HTMLworkDescription.replace(
             "%data%",
@@ -216,8 +214,6 @@ work.display = function() {
         $(".work-entry:last").append(formattedDescription);
     }
 };
-
-work.display();
 
 //Project information
 //Must have images array be an "empty array" for projects.projects.images even if there
@@ -305,14 +301,17 @@ projects.display = function() {
     }
 };
 
-projects.display();
-
 $("#mapDiv").append(googleMap);
 
 $('.iframe-full-height').on('load', function() {
     this.style.height = this.contentDocument.body.scrollHeight +
         'px';
 });
+
+bio.display();
+projects.display();
+education.display();
+work.display();
 
 /*$(document).click(function(loc) {
   var x = loc.pageX;
